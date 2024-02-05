@@ -4,35 +4,48 @@ namespace ExampleManagerForKs
 {
     internal class HealthyEatingService
     {
-        private string _path = "Eatings.json";
+        private string _path = "Eatings.json"; // путь  к  файлу 
+
+        /// <summary>
+        /// Список записей 
+        /// </summary>
         public List<Eating> Eatings { get; set; } 
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public HealthyEatingService ()
         {
-            if (File.Exists(_path) == false)
-                File.Create(_path).Close();
+            if (File.Exists(_path) == false) // проверить файл - если  нет  создать 
+                File.Create(_path).Close(); // создали файл  если его нет 
 
             try
             {
-                string jsonContent = File.ReadAllText(_path);
-                Eatings = JsonConvert.DeserializeObject<List<Eating>>(jsonContent);
-                if (Eatings == null)
+                string jsonContent = File.ReadAllText(_path); // читаем  файл
+                Eatings = JsonConvert.DeserializeObject<List<Eating>>(jsonContent); // сериализуем 
+                if (Eatings == null) // если  не  получилось - значит  там пусто
                 {
-                    Eatings = new  List<Eating> ();
+                    Eatings = new  List<Eating> (); // создадим  новый лист 
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Ошибка чтения из файла"); 
+                throw new Exception("Ошибка чтения из файла");  // иначе  ошибка  при  работе  с файлом 
             }
         }
 
-        public void Add  (Eating eating )
+        /// <summary>
+        /// Добавить  запись
+        /// </summary>
+        /// <param name="eating"></param>
+        public void Add  (Eating eating )  
         {
             try
             {
-                eating.Id = GetId();
-                Eatings.Add(eating);
-                Save();
+                eating.Id = GetId(); // тут  надо  получить  уникальный ид 
+                Eatings.Add(eating); // добавим в  лист 
+                Save(); // сохраним в  файл 
             }
             catch (Exception ex)
             {
@@ -40,46 +53,54 @@ namespace ExampleManagerForKs
             }
         }
 
+        /// <summary>
+        /// удалить  по  ид 
+        /// </summary>
+        /// <param name="id"> ид  записис</param>
+        /// <returns>да если успешно</returns>
         public bool Delete (int id )
         {
-            foreach (Eating eating in Eatings)
+            foreach (Eating eating in Eatings) // перебираем 
             { 
-                if (eating.Id == id)
+                if (eating.Id == id) // проверяем 
                 {
-                    Eatings.Remove(eating);
-                    Save();
-                    return true;
+                    Eatings.Remove(eating); // удаляем 
+                    Save(); // сохраняем 
+                    return true; // выходим 
                 }
             }
-            return false;
+            return false; // если  никого  не  нашли 
         }
 
 
+        /// <summary>
+        /// получаем  лист  записей на конкретную дату 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <returns>новый  список  на конкретную дату </returns>
         public List<Eating> GetEatingsForDay (int day , int month)
         {
-            List<Eating> eatings = new List<Eating>();
-            foreach (Eating eat in Eatings)
+            List<Eating> eatings = new List<Eating>(); // выделем  помять 
+            foreach (Eating eat in Eatings) // пройдемся  по  листу 
             {
                 if(eat.Date.Day == day && eat.Date.Month == month)
-                    eatings.Add(eat);
+                    eatings.Add(eat); // если да  - положем  в  память 
             }
-            return eatings;
+            return eatings; // вернем  все что  нашли 
         }
 
-        private int GetId()
-        {
-               if (Eatings.Count == 0)
-                    return 1;
-               else 
-                    return Eatings.Last().Id + 1 ;
-        }
-
+      
+        /// <summary>
+        ///  Сохраням  в  файл 
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         private void Save()
         {
             try
             {
-                string contentJson = JsonConvert.SerializeObject(Eatings);
-                File.WriteAllText(_path, contentJson);
+                string contentJson = JsonConvert.SerializeObject(Eatings); // сериализуем  
+                File.WriteAllText(_path, contentJson); // полноситью  перезаписываем  п.с. не очень эфективно по  произволительности 
             }
             catch (Exception ex)
             {
@@ -87,14 +108,20 @@ namespace ExampleManagerForKs
             }
         }
 
+        /// <summary>
+        /// получаем  сумму  калорий  за  день 
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public int GetCountCalories(int day, int month)
         {
 
-            int  summa = 0;
+            int  summa = 0; // объявим  переменную 
             foreach (Eating eat in Eatings)
             {
                 if (eat.Date.Day == day && eat.Date.Month == month)
-                    summa += eat.Calories;
+                    summa += eat.Calories;  // суммируем  если да 
             }
             return summa;
         }
@@ -105,24 +132,38 @@ namespace ExampleManagerForKs
             int summa = 0;
             foreach (Eating eat in Eatings)
             {
-               summa += eat.Calories;
+               summa += eat.Calories; // суммируем  все 
             }
             return summa;
         }
 
-        internal void Clear()
+        public void Clear()
         {
             try
             {
-                Eatings.Clear();
-                Save();
+                Eatings.Clear(); // очистим стисок 
+                Save();          // перезапишем  файл
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
           
         }
+
+
+        /// <summary>
+        /// получает  уникальный ид 
+        /// </summary>
+        /// <returns></returns>
+        private int GetId()
+        {
+            if (Eatings.Count == 0) // если  список  пустой 
+                return 1; // то  начнем  с 1 
+            else
+                return Eatings.Last().Id + 1; // иначе - последний  элемент  списка  + 1 
+        }
+
+
     }
 }

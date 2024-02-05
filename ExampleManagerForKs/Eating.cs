@@ -28,17 +28,22 @@ namespace ExampleManagerForKs
         public MyDate Date { get; private set; }
 
 
-        public Eating(int id, string description, int calories, MyDate date)
+        public Eating( string description, int calories, MyDate date)
         {
-            Id = id;
+           
             Description = description;
 
-            if(calories>0)
+            if(calories>0)  
                 Calories = calories;
 
             Date = date;
         }
 
+
+        /// <summary>
+        /// Удобный вывод
+        /// </summary>
+        /// <returns></returns>
         public string Info ()
         {
             return  $"ID:{Id} | " +

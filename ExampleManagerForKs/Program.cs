@@ -1,36 +1,37 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ExampleManagerForKs;
 
-PrintYellow("Менеджер учета пищи");
-PrinHelp();
-HealthyEatingService service;
+PrintYellow("Менеджер учета пищи"); 
+PrinHelp();   // выведем  список  команд 
+HealthyEatingService service; // обьявим основной  сервер 
 try
 {
-    service = new HealthyEatingService();  
+    service = new HealthyEatingService();   // создадим объект  !! тут  будет  подгрузка  контента 
 }
-catch (Exception ex)
+catch (Exception ex ) // если ошибка 
 {
-    PrintRed(ex.Message);
-    return; 
+    PrintRed(ex.Message); 
+    Console.ReadKey();    // задержка 
+    return;   //выйдем  из  программы 
 }
 
-while (true)
+while (true)  // повторять 
 {
-    PrintYellow("Введите команду:");
-
+    PrintYellow("Введите команду:");   // ждем  команды 
+     
     switch (Console.ReadLine())
     {
-        case "1": AddConsole();  break; 
-        case "2": DeleteConsole(); break;
-        case "3": PrintEatingsConsole(); break; 
-        case "4": PrintEatingsForDayConsole();  break;
-        case "5": PrintCountCaloriesforDayConsole();  break;
-        case "6": PrintCountCaloriesConsole(); break;
-        case "7": AllDellConsole(); break;
-        case "8": Console.Clear();   break;
-        case "help":  PrinHelp(); break;
+        case "1": AddConsole();  break;     // добавить 
+        case "2": DeleteConsole(); break;   // улалить 
+        case "3": PrintEatingsConsole(); break;   // вывести весь  список 
+        case "4": PrintEatingsForDayConsole();  break; // вывести  список  по  дням 
+        case "5": PrintCountCaloriesforDayConsole();  break;  // вывести  каллории  по  дням 
+        case "6": PrintCountCaloriesConsole(); break;         // вывести  суммарные  колллрии  
+        case "7": AllDellConsole(); break;                // очистить файл 
+        case "8": Console.Clear();   break;               // очистить консоль 
+        case "help":  PrinHelp(); break;                // вывести  подсказку 
         default:
-            PrintRed("не верная команда"); break;
+            PrintRed("не верная команда"); break;            // если не верная  комманда 
     }
 }
 
@@ -49,9 +50,17 @@ void AddConsole()
         int _day = Convert.ToInt32(Console.ReadLine());
         PrintYellow("Введите месяц:");
         int _month = Convert.ToInt32(Console.ReadLine());
-        service.Add(new Eating(0, _description, _calories, new MyDate(_day, _month)));
-        PrintYellow("Запись добавллена:");
-        PrintEatingsConsole();
+
+        // вызываем  метод  Add  у  сервиса  передаем 
+                                            // описание
+                                            // колории 
+                                            // дата :    
+                                                    // день 
+                                                    // месяц
+        service.Add(new Eating( _description, _calories, new MyDate(_day, _month)));
+
+        PrintYellow("Запись добавлена:"); //  если  успешно  выведем  сообщение 
+        PrintEatingsConsole(); // выведем полный список для  удобства  
     }
     catch (Exception ex)
     {
@@ -68,11 +77,11 @@ void DeleteConsole()
     try
     {
         int id = Convert.ToInt32(Console.ReadLine());
-        if (service.Delete(id) == true)
+        if (service.Delete(id) == true)    //если истина  то  значит  удалилось
             PrintYellow("Запись  удалена");
         else
             PrintRed("Запись не удалена");
-        PrintEatingsConsole();
+        PrintEatingsConsole();           // выведем полный список для  удобства  
     }
     catch (Exception ex)
     {
@@ -83,16 +92,15 @@ void PrintEatingsConsole()
 {
     PrintYellow("Список записей:");
 
-    if (service.Eatings.Count == 0)
+    if (service.Eatings.Count == 0) // если пусто
     {
         PrintGreen("нет записей");
-        return;
+        return;         // выйдем  из  метода 
     }
-
 
     foreach (Eating eat in service.Eatings)
     {
-        PrintGreen(eat.Info());
+        PrintGreen(eat.Info());  // выведим  инфу 
     }
 }
 void PrintEatingsForDayConsole()
@@ -136,8 +144,6 @@ void PrintCountCaloriesforDayConsole()
         int month = Convert.ToInt32(Console.ReadLine());
         int summa = service.GetCountCalories(day, month);
         PrintGreen($"За день было съедиенно {summa} каллорий");
-
-
     }
     catch (Exception ex)
     {
@@ -152,30 +158,31 @@ void PrintCountCaloriesConsole()
 }
 void AllDellConsole()
 {
-    Random rnd = new Random();
+    Random rnd = new Random();   
     PrintYellow("Удаление всех записей ");
     PrintRed("Внимание - вернуть  записи назад  будет нельзя");
 
-    int  randomCapcha = rnd.Next(100 , 999);
+    int  randomCapcha = rnd.Next(100 , 999);             // случайное  число 
     PrintYellow($"Введите  код подтверждения \"{randomCapcha}\"");
     PrintYellow($"если вы передумали введите \"n\"");
 
     string capcha = Console.ReadLine();
-    if (capcha == "n")
-        return;
+    if (capcha == "n")   // если  n  то  не  удалять 
+        return;          // выйти 
 
-    if(capcha == randomCapcha.ToString())
+    if(capcha == randomCapcha.ToString()) // если совпало с  капчей 
     {
-        service.Clear();
-        PrintYellow("Все записи удалены");
+        service.Clear();   // удалить 
+        PrintYellow("Все записи удалены"); // вывести сообщение 
     }
     else
     {
-        PrintRed("не верный код, Удаления не будет");
+        PrintRed("не верный код, Удаления не будет"); // если не верная  капча 
     }
 
 }
 
+///Список  команд 
 void PrinHelp ()
 {
     PrintYellow("Список команд:");
