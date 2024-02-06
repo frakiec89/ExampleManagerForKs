@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ExampleManagerForKs;
 
-PrintYellow("Менеджер учета пищи"); 
+PrintYellow("Менеджер учета пищи:"); 
 PrinHelp();   // выведем  список  команд 
 HealthyEatingService service; // обьявим основной  сервер 
 try
@@ -31,7 +31,7 @@ while (true)  // повторять
         case "8": Console.Clear();   break;               // очистить консоль 
         case "help":  PrinHelp(); break;                // вывести  подсказку 
         default:
-            PrintRed("не верная команда"); break;            // если не верная  комманда 
+            PrintRed("не верная команда!"); break;            // если не верная  комманда 
     }
 }
 
@@ -73,14 +73,14 @@ void DeleteConsole()
 {
     PrintYellow("Удаление записи:");
     PrintEatingsConsole();
-    PrintYellow("Укажите ид записи которую хотите удалить");
+    PrintYellow("Укажите ид записи которую хотите удалить:");
     try
     {
         int id = Convert.ToInt32(Console.ReadLine());
         if (service.Delete(id) == true)    //если истина  то  значит  удалилось
-            PrintYellow("Запись  удалена");
+            PrintYellow("Запись удалена!");
         else
-            PrintRed("Запись не удалена");
+            PrintRed("Запись не удалена"!);
         PrintEatingsConsole();           // выведем полный список для  удобства  
     }
     catch (Exception ex)
@@ -94,7 +94,7 @@ void PrintEatingsConsole()
 
     if (service.Eatings.Count == 0) // если пусто
     {
-        PrintGreen("нет записей");
+        PrintGreen("нет записей!");
         return;         // выйдем  из  метода 
     }
 
@@ -107,10 +107,10 @@ void PrintEatingsForDayConsole()
 {
     try
     {
-        PrintYellow("Список записей на конкретный день");
-        PrintYellow("Укадите день");
+        PrintYellow("Список записей на конкретный день:");
+        PrintYellow("Укажите день:");
         int day = Convert.ToInt32(Console.ReadLine());
-        PrintYellow("Укадите месяц");
+        PrintYellow("Укажите месяц:");
         int month = Convert.ToInt32(Console.ReadLine());
 
         PrintYellow("Список записей:");
@@ -119,7 +119,7 @@ void PrintEatingsForDayConsole()
 
         if (eatings.Count == 0)
         {
-            PrintGreen("нет записей");
+            PrintGreen("нет записей!");
             return;
         }
 
@@ -137,13 +137,13 @@ void PrintCountCaloriesforDayConsole()
 {
     try
     {
-        PrintYellow("Сумма колллорий  на конкретный день");
-        PrintYellow("Укадите день");
+        PrintYellow("Сумма колллорий  на конкретный день:");
+        PrintYellow("Укажите день:");
         int day = Convert.ToInt32(Console.ReadLine());
-        PrintYellow("Укадите месяц");
+        PrintYellow("Укажите месяц:");
         int month = Convert.ToInt32(Console.ReadLine());
         int summa = service.GetCountCalories(day, month);
-        PrintGreen($"За день было съедиенно {summa} каллорий");
+        PrintGreen($"За день было съедиенно {summa} каллорий.");
     }
     catch (Exception ex)
     {
@@ -152,19 +152,19 @@ void PrintCountCaloriesforDayConsole()
 }
 void PrintCountCaloriesConsole()
 {
-    PrintYellow("Сумма колллорий за все время");
+    PrintYellow("Сумма колллорий за все время:");
     int summa = service.GetCountCalories();
-    PrintGreen($"Всего было съедиенно {summa} каллорий");
+    PrintGreen($"Всего было съедиенно {summa} каллорий.");
 }
 void AllDellConsole()
 {
     Random rnd = new Random();   
-    PrintYellow("Удаление всех записей");
+    PrintYellow("Удаление всех записей:");
     PrintRed("Внимание - вернуть  записи назад  будет нельзя!!!");
 
     int  randomCapcha = rnd.Next(100 , 999);             // случайное  число 
-    PrintYellow($"Введите  код подтверждения \"{randomCapcha}\"");
-    PrintYellow($"если вы передумали введите \"n\"");
+    PrintYellow($"Введите код подтверждения \"{randomCapcha}\".");
+    PrintYellow($"Если вы передумали введите \"n\":");
 
     string capcha = Console.ReadLine();
     if (capcha == "n")   // если  n  то  не  удалять 
@@ -173,28 +173,27 @@ void AllDellConsole()
     if(capcha == randomCapcha.ToString()) // если совпало с  капчей 
     {
         service.Clear();   // удалить 
-        PrintYellow("Все записи удалены"); // вывести сообщение 
+        PrintYellow("Все записи удалены!"); // вывести сообщение 
     }
     else
     {
-        PrintRed("не верный код, Удаления не будет"); // если не верная  капча 
+        PrintRed("не верный код, удаления не будет!"); // если не верная  капча 
     }
-
 }
 
 ///Список  команд 
 void PrinHelp ()
 {
     PrintYellow("Список команд:");
-    PrintGreen("1 - Добавить запись");
-    PrintGreen("2 - Удалить запись");
-    PrintGreen("3 - Получить список всех записей");
-    PrintGreen("4 - Получить список записей на конкретный день");
-    PrintGreen("5 - Получить сумму каллорий конкретный день");
-    PrintGreen("6 - Получить сумму всех каллорий");
-    PrintGreen("7 - Очистить  все записи");
-    PrintGreen("8 - Очистить консоль");
-    PrintGreen("help -помошь");
+    PrintGreen("1 - Добавить запись,");
+    PrintGreen("2 - Удалить запись,");
+    PrintGreen("3 - Получить список всех записей,");
+    PrintGreen("4 - Получить список записей на конкретный день,");
+    PrintGreen("5 - Получить сумму каллорий на конкретный день,");
+    PrintGreen("6 - Получить сумму всех каллорий,");
+    PrintGreen("7 - Очистить все записи,");
+    PrintGreen("8 - Очистить консоль,");
+    PrintGreen("help -помошь.");
 }
 
 
@@ -207,7 +206,6 @@ void PrintGreen(string message)
     Console.WriteLine(message);                   // выведем сообщение
     Console.ForegroundColor = color;              // вернем цвет
 }
-
 void PrintRed(string message)
 {
     ConsoleColor color = Console.ForegroundColor; // запомним цвет
@@ -215,7 +213,6 @@ void PrintRed(string message)
     Console.WriteLine(message);                   // выведем сообщение
     Console.ForegroundColor = color;              // вернем цвет
 }
-
 void PrintYellow(string message)
 {
     ConsoleColor color = Console.ForegroundColor; // запомним цвет
