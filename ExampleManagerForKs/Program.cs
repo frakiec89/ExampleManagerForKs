@@ -159,8 +159,8 @@ void PrintCountCaloriesConsole()
 void AllDellConsole()
 {
     Random rnd = new Random();   
-    PrintYellow("Удаление всех записей ");
-    PrintRed("Внимание - вернуть  записи назад  будет нельзя");
+    PrintYellow("Удаление всех записей");
+    PrintRed("Внимание - вернуть  записи назад  будет нельзя!!!");
 
     int  randomCapcha = rnd.Next(100 , 999);             // случайное  число 
     PrintYellow($"Введите  код подтверждения \"{randomCapcha}\"");
