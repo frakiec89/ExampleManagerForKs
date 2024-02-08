@@ -23,7 +23,7 @@ namespace ExampleManagerForKs
             try
             {
                 string jsonContent = File.ReadAllText(_path); // читаем  файл
-                Eatings = JsonConvert.DeserializeObject<List<Eating>>(jsonContent); // сериализуем 
+                Eatings = JsonConvert.DeserializeObject<List<Eating>>(jsonContent); // де сериализуем 
                 if (Eatings == null) // если  не  получилось - значит  там пусто
                 {
                     Eatings = new  List<Eating> (); // создадим  новый лист 
