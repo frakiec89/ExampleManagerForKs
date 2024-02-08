@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+// track
+
 using ExampleManagerForKs;
 
 PrintYellow("Менеджер учета пищи:"); 
@@ -66,8 +68,6 @@ void AddConsole()
     {
         PrintRed(ex.Message);
     }
-
-
 }
 void DeleteConsole()
 {
@@ -195,7 +195,6 @@ void PrinHelp ()
     PrintGreen("8 - Очистить консоль,");
     PrintGreen("help -помошь.");
 }
-
 
 // Цвета  для консоли
 
