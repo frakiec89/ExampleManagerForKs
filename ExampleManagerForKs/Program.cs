@@ -3,9 +3,10 @@
 
 using ExampleManagerForKs;
 
-PrintYellow("Менеджер учета пищи:"); 
+PrintYellow("Менеджер учета приема пищи:"); 
 PrinHelp();   // выведем  список  команд 
 HealthyEatingService service; // обьявим основной  сервер 
+
 try
 {
     service = new HealthyEatingService();   // создадим объект  !! тут  будет  подгрузка  контента 

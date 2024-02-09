@@ -73,6 +73,8 @@ namespace ExampleManagerForKs
         }
 
 
+
+
         /// <summary>
         /// получаем  лист  записей на конкретную дату 
         /// </summary>
@@ -90,7 +92,6 @@ namespace ExampleManagerForKs
             return eatings; // вернем  все что  нашли 
         }
 
-      
         /// <summary>
         ///  Сохраням  в  файл 
         /// </summary>
@@ -148,7 +149,6 @@ namespace ExampleManagerForKs
             {
                 throw ex;
             }
-          
         }
 
 
@@ -163,7 +163,5 @@ namespace ExampleManagerForKs
             else
                 return Eatings.Last().Id + 1; // иначе - последний  элемент  списка  + 1 
         }
-
-
     }
 }
